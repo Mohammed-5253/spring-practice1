@@ -3,6 +3,7 @@ package com.interview2.controller;
 import com.interview2.entity.User;
 import com.interview2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +26,8 @@ public class UserController {
         return repository.save(user);
     }
 //    update -- means put request
-    @PutMapping("{id}")
-    public Optional<User> updateUser(@PathVariable Integer id, @RequestBody User userRequest) {
+    @PutMapping("/{id}")
+    public Optional<User> updateUser(@PathVariable @Validated Integer id, @RequestBody User userRequest) {
         return repository.findById(id)
                 .map(user -> {
                     user.setName(userRequest.getName());
@@ -36,18 +37,18 @@ public class UserController {
                 });
 }
 //    Read -- means get request
-    @GetMapping
+    @GetMapping("/allUsers")
     public List<User> getAllUser() {
     return repository.findAll();
     }
 
-    @GetMapping("{id}")
-    public Optional<User> getUser(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public Optional<User> getUser(@PathVariable @Validated Integer id) {
         return repository.findById(id);
     }
 //    Delete --means delete request
-    @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable Integer id) {
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable @Validated Integer id) {
         repository.deleteById(id);
     }
 
